@@ -25,26 +25,26 @@ import dgl
 class STGCNLayer(nn.Module):
     def __init__(self, in_channels, out_channels, K):
         super(STGCNLayer, self).__init__()
-        # 图卷积层
+
         self.graph_conv = ChebConv(in_channels, out_channels, K)
-        # 线性层
+
         self.linear = nn.Linear(out_channels, in_channels)
 
     def forward(self, g, x):
-        # x: 形状为 (B, N, T)
+
         batch_size = x.size(0)
         outputs = []
 
         for i in range(batch_size):
-            node_features = x[i]  # 形状为 (N, T)
-            out_graph = self.graph_conv(g, node_features)  # 输出形状为 (N, out_channels)
+            node_features = x[i]  #  (N, T)
+            out_graph = self.graph_conv(g, node_features)  #  (N, out_channels)
             out_graph = torch.relu(out_graph)
-            # 使用线性层处理每个节点的输出
-            out_graph = self.linear(out_graph)  # 输出形状为 (N, temporal_output_size)
-            outputs.append(out_graph.unsqueeze(0))  # 增加维度以保持批次结构
 
-        # 将所有批次的输出拼接在一起，形状为 (B, N, temporal_output_size)
-        return torch.cat(outputs, dim=0)  # 输出形状为 (B, N, T)
+            out_graph = self.linear(out_graph)  #  (N, temporal_output_size)
+            outputs.append(out_graph.unsqueeze(0))  
+
+        #  (B, N, temporal_output_size)
+        return torch.cat(outputs, dim=0)  # (B, N, T)
 
 
 
@@ -59,7 +59,7 @@ class MGCN_block(nn.Module):
         self.adj_mx=adj_mx
         self.residual_conv = nn.Conv2d(in_channels, nb_time_filter, kernel_size=(1, 1), stride=(1, time_strides))
 
-        self.ln = nn.LayerNorm(nb_time_filter)  # 需要将channel放到最后一个维度上
+        self.ln = nn.LayerNorm(nb_time_filter)  
         self.encoder = Encoder(
             [
                 EncoderLayer(
