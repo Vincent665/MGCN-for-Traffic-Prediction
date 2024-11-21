@@ -1,0 +1,9 @@
+causal_conv1d==1.4.0
+einops==0.4.1
+mamba_ssm==2.2.2
+numpy==1.19.5
+pandas==1.1.5
+scikit_learn==1.5.1
+scipy==1.5.4
+tensorboardX==2.6.2.2
+torch==1.10.2
