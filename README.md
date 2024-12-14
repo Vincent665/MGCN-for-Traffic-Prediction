@@ -1,6 +1,6 @@
 # MGCN-for-Traffic-Prediction
 
-The repo is the official implementation for the paper: [MGCN: Mamba-Integrated Spatiotemporal Graph Convolutional Network for Long-Term Traffic Forecasting]
+The repo is the official implementation for the paper: [MGCN: Mamba-integrated spatiotemporal graph convolutional network for long-term traffic forecasting]
 
 ## Usage 
 
