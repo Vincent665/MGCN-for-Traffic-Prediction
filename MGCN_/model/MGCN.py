@@ -455,7 +455,7 @@ class EncoderLayer(nn.Module):
         self.activation = F.relu if activation == "relu" else F.gelu
     def forward(self, x):
 
-        new_x = self.mamba(x) + self.mamba_r(x.flip(dims=[-1])).flip(dims=[-1])
+        new_x = self.mamba(x) + self.mamba_r(x.flip(dims=[1])).flip(dims=[1])
         attn =1
 
         x = x + new_x
