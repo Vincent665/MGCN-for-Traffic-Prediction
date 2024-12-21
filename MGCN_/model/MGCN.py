@@ -88,7 +88,6 @@ class MGCN_block(nn.Module):
         self.projector2 = nn.Linear(in_channels, nb_time_filter, bias=True)
         self.device=DEVICE
 
-
     def forward(self, x):
 
         x0=x
@@ -163,8 +162,6 @@ def make_model(DEVICE,  in_channels, K, nb_chev_filter, nb_time_filter, time_str
             nn.init.uniform_(p)
 
     return model
-
-
 
 
 class Mamba(nn.Module):
@@ -458,7 +455,7 @@ class EncoderLayer(nn.Module):
         self.activation = F.relu if activation == "relu" else F.gelu
     def forward(self, x):
 
-        new_x = self.mamba(x) + self.mamba_r(x.flip(dims=[1])).flip(dims=[1])
+        new_x = self.mamba(x) + self.mamba_r(x.flip(dims=[-1])).flip(dims=[-1])
         attn =1
 
         x = x + new_x
