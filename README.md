@@ -9,6 +9,9 @@ The repo is the official implementation for the paper: [MGCN: Mamba-integrated s
 ```
 pip install -r requirements.txt
 ```
+Other requirements:
+Ubuntu 20.04+
+
 2. Train and Test
 
 The settings for each experiments are given in the "configurations" folder.
