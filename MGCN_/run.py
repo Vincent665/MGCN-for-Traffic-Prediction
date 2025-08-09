@@ -165,7 +165,13 @@ def train_main():
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             best_epoch = epoch
-
+        
+        early_stopping(val_loss, net, params_filename)
+        if early_stopping.early_stop:
+            print("Early stopping")
+            break
+        adjust_learning_rate(optimizer, epoch + 1, learning_rate)
+      
         net.train()  # ensure dropout layers are in train mode
 
         for batch_index, (encoder_inputs, labels) in enumerate(train_loader):
@@ -205,11 +211,6 @@ def train_main():
                 iter_count = 0
                 time_now = time.time()
 
-        early_stopping(val_loss, net, params_filename)
-        if early_stopping.early_stop:
-            print("Early stopping")
-            break
-        adjust_learning_rate(optimizer, epoch + 1, learning_rate)
     print('best epoch:', best_epoch)
 
     # apply the best model on the test set
