@@ -67,18 +67,6 @@ params_path = os.path.join('experiments', dataset_name, folder_dir)
 print('params_path:', params_path)
 
 
-def _get_data(root_path, flag,seq_len,label_len,pred_len,batch_size):
-    data_set, data_loader = data_provider(root_path, flag,seq_len,label_len,pred_len,batch_size)
-    return data_set, data_loader
-train_data, train_loader = _get_data(root_path=graph_signal_matrix_filename,flag='train',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
-vali_data, val_loader = _get_data(root_path=graph_signal_matrix_filename,flag='val',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
-test_data, test_loader = _get_data(root_path=graph_signal_matrix_filename,flag='test',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
-
-
-adj_mx, distance_mx = get_adjacency_matrix(adj_filename, num_of_vertices, id_filename)
-
-net = make_model(DEVICE, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, adj_mx,
-                 num_for_predict, len_input)
 
 
 def train_main():
@@ -237,5 +225,17 @@ def set_seed(seed):
 if __name__ == "__main__":
     fix_seed = 2024
     set_seed(fix_seed)
+    
+    def _get_data(root_path, flag,seq_len,label_len,pred_len,batch_size):
+        data_set, data_loader = data_provider(root_path, flag,seq_len,label_len,pred_len,batch_size)
+        return data_set, data_loader
+    train_data, train_loader = _get_data(root_path=graph_signal_matrix_filename,flag='train',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
+    vali_data, val_loader = _get_data(root_path=graph_signal_matrix_filename,flag='val',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
+    test_data, test_loader = _get_data(root_path=graph_signal_matrix_filename,flag='test',seq_len=points_per_hour,label_len=0,pred_len=num_for_predict,batch_size=batch_size)
+    
+    adj_mx, distance_mx = get_adjacency_matrix(adj_filename, num_of_vertices, id_filename)
+    
+    net = make_model(DEVICE, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, adj_mx,
+                     num_for_predict, len_input)
     train_main()
 
